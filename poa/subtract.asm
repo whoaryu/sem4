@@ -8,3 +8,4 @@ INC CL
 JUMP:
     MOV [1006h],CL
 HLT
+
