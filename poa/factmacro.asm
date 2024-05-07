@@ -1,0 +1,24 @@
+FACT MACRO F
+    UP:
+    MUL F
+    DEC F
+    JNZ UP   
+ENDM
+
+DATA SEGMENT
+    NUM DW 05H
+    RESULT DW ?
+ENDS
+
+STACK SEGMENT
+    DW 128 DUP(0)  
+    ENDS 
+
+CODE SEGMENT
+    START:
+    MOV AX, DATA
+    MOV DS, AX
+    MOV AX, 0001H
+    FACT NUM
+    MOV RESULT, AX
+ENDS
