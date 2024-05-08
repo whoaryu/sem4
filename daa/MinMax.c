@@ -1,54 +1,44 @@
+// minmax
+
 #include <stdio.h>
-
-int arr[50];
-
-void MaxMin(int low, int high, int *max, int *min)
+// Calculate array size
+#define ARRAY_SIZE(a) sizeof(a) / sizeof(a[0])
+// Function to find the minimum and
+// maximum element of the array
+void findMinimumMaximum(int arr[], int N)
 {
-    if (low == high)
+    int i;
+    // variable to store the minimum
+    // and maximum element
+    int min = arr[0], max = arr[0];
+    // Traverse the given array
+    for (i = 0; i < N; i++)
     {
-        *min = *max = arr[low];
-    }
-    else if (low == high - 1)
-    {
-        if (arr[low] < arr[high])
+        // If current element is smaller
+        // than min then update it
+        if (arr[i] < min)
         {
-            *min = arr[low];
-            *max = arr[high];
+            min = arr[i];
         }
-        else
+        // If current element is greater
+        // than max then update it
+        if (arr[i] > max)
         {
-            *min = arr[high];
-            *max = arr[low];
+            max = arr[i];
         }
     }
-    else
-    {
-        int mid = (low + high) / 2;
-        int leftMax, leftMin, rightMax, rightMin;
-        MaxMin(low, mid, &leftMax, &leftMin);
-        MaxMin(mid + 1, high, &rightMax, &rightMin);
-
-        *max = (rightMax > leftMax) ? rightMax : leftMax;
-        *min = (rightMin < leftMin) ? rightMin : leftMin;
-    }
+    // Print the minimum and maximum element
+    printf("minimum element is %d", min);
+    printf("\n");
+    printf("maximum element is %d", max);
 }
-
 int main()
 {
-    int n;
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-
-    printf("Enter %d elements:\n", n);
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &arr[i]);
-    }
-
-    int max, min;
-    MaxMin(0, n - 1, &max, &min);
-    printf("Maximum element is: %d\n", max);
-    printf("Minimum element is: %d\n", min);
-
+    // Given array
+    int arr[] = {5, 8, 4, -1};
+    // length of the array
+    int N = ARRAY_SIZE(arr);
+    // Function call
+    findMinimumMaximum(arr, N);
     return 0;
 }
