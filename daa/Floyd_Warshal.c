@@ -6,78 +6,47 @@ The weight of each edge represents the travel time between warehouses.
 Output:
 A matrix showing the shortest travel times between all pairs of warehouses.*/
 
-#include<stdio.h>
-#include<limits.h>
+// floydwarshall
 
-int count=0;
-
-int connection[4][4]={
-    {0,3,INT_MAX-100,7},
-    {8,0,2,INT_MAX-100},
-    {5,INT_MAX-100,0,1},
-    {2,INT_MAX-100,INT_MAX-100,0}
-};
-
-int parent[4][4]={
-    {-1,1,-1,1},
-    {2,-1,2,-1},
-    {3,-1,-1,3},
-    {4,-1,-1,-1},
-};
-
-int min(int a,int b)
+#include <stdio.h>
+#define v 10
+void floyd_warshall(int a[v][v], int n)
 {
-    int c=a>b?b:a;
-    return c;
-}
-
-void floyd_warshal()
-{
-    while(count<4)
+    for (int k = 0; k < n; k++)
     {
-        for(int i=0;i<4;i++)
+        for (int i = 0; i < n; i++)
         {
-            for(int j=0;j<4;j++)
+            for (int j = 0; j < n; j++)
             {
-                if(i!=count && j!=count) 
+                if (a[i][j] > a[i][k] + a[k][j])
                 {
-                    int temp=connection[i][j];
-                    connection[i][j]=min(connection[i][j],(connection[i][count]+connection[count][j]));
-                    if(temp!=connection[i][j])
-                    {
-                        parent[i][j]=count+1;
-                    }
+                    a[i][j] = a[i][k] + a[k][j];
                 }
             }
         }
-
-        count++;
+    }
+    printf("All Pairs Shortest Path is :\n");
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            printf("%d ", a[i][j]);
+        }
+        printf("\n");
     }
 }
-
-void main()
+int main()
 {
-    floyd_warshal();
-
-    printf("A:\n");
-    for(int i=0;i<4;i++)
+    int n;
+    scanf("%d", &n);
+    int a[v][v];
+    for (int i = 0; i < n; i++)
     {
-        for(int j=0;j<4;j++)
+        for (int j = 0; j < n; j++)
         {
-            printf("%d ",connection[i][j]);
+            scanf("%d", &a[i][j]);
         }
-        printf("\n");
     }
 
-    printf("Parent:\n");
-    for(int i=0;i<4;i++)
-    {
-        for(int j=0;j<4;j++)
-        {
-            printf("%d ",parent[i][j]);
-        }
-        printf("\n");
-    }
-
-
+    floyd_warshall(a, n);
 }
