@@ -1,59 +1,65 @@
-#include<stdio.h>
+#include <stdio.h>
+#define n 5
+#define m 3
 
-int graph[40][40]={
-    {0,1,1,1},
-    {1,0,1,0},
-    {1,1,0,1},
-    {1,0,1,0},
-},x[50],n=4,m=3;
+int x[n];
+int graph[n][n] = {{0,1,1,0,1},
+                {1,0,1,0,1},
+                {1,1,0,1,0},
+                {0,0,1,0,1},
+                {0,1,0,1,0}};
 
-
-int nextValue(int k)
+void nextcolour(int k)
 {
-    int j;
     while(1)
     {
         x[k]=(x[k]+1)%(m+1);
         if(x[k]==0)
-            return 0;
-        for(j=0;j<n;j++)
         {
-            if(graph[k][j]!=0 && x[k]==x[j])
-                break;
+            return;
         }
-        if(j==n)
-            return 1;
-    }   
-
+        int count=0;
+        for(int j=0;j<n;j++)
+        {
+            if(k!=j && x[k]==x[j] && graph[k][j]!=0)
+            {
+                break;
+            }
+            count++;
+        }
+            if(count==n)
+            {
+                return;
+            }
+    }
 }
 
-
-int mColor(int k)
+void graphcolouring(int k)
 {
-    
     while(1)
     {
-        nextValue(k);
+        nextcolour(k);
         if(x[k]==0)
-            return 0;
-        if(k == n-1)
         {
+            return;
+        }
+        if(k==n)
+        {
+            printf("\n");
             for(int i=0;i<n;i++)
             {
-                printf("%d ",x[i]);
+                printf("%c : %d\t", 65+i, x[i]);
             }
-            printf("\n");
         }
-        else
-        {
-            mColor(k+1);
+        else{
+            graphcolouring(k+1);
         }
     }
 }
 
-
-
-void main()
-{
-    mColor(0);
+void main(){
+    for(int i=0; i<n; i++){
+        x[i] = 0;
+    }
+    graphcolouring(0);
 }
