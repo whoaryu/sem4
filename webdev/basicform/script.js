@@ -15,6 +15,7 @@ function validateForm() {
     var sapIdPattern = /^600[0-9]{8}$/;
     var phoneNumberPattern = /^[0-9]{10}$/;
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var passwordPattern = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
     // Error message variable
     var errorMessage = "";
@@ -62,8 +63,8 @@ function validateForm() {
     // Validate Password
     if (password.trim() == "") {
         errorMessage += "Please enter a password.\n";
-    } else if (password.length < 8) {
-        errorMessage += "Password must be at least 8 characters long.\n";
+    } else if (!passwordPattern.test(password)) {
+        errorMessage += "Password must be at least 8 characters long and contain at least one special character.\n";
     }
 
     // Validate Confirm Password
@@ -79,6 +80,21 @@ function validateForm() {
         return false; // Prevent form submission
     }
 
-    // If all validations pass, return true to allow form submission
-    return true;
+    // // If all validations pass, return true to allow form submission
+    // return true;
+
+     // If all validations pass, construct URL parameters and redirect to students.html
+     var urlParams = "?firstName=" + encodeURIComponent(firstName) +
+     "&lastName=" + encodeURIComponent(lastName) +
+     "&sapId=" + encodeURIComponent(sapId) +
+     "&dob=" + encodeURIComponent(dob) +
+     "&division=" + encodeURIComponent(division) +
+     "&department=" + encodeURIComponent(department) +
+     "&phoneNumber=" + encodeURIComponent(phoneNumber) +
+     "&email=" + encodeURIComponent(email);
+
+window.location.href = "students.html" + urlParams;
+
+return false; // Prevent default form submission
+
 }
