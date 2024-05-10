@@ -1,72 +1,37 @@
-#include<stdio.h>
-#include<string.h>
-#include<math.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-char T[50],P[50];
-
-
-void RabinKarp(int d,int q)
-{
-    int m,n,h,temp=1,p=0,t=0;
-    n=strlen(T);
-    m=strlen(P);
-
-    for(int i=1;i<m;i++)
-    {
-        temp*=d;
-    }
-    h=temp%q;
-    // printf("%d",h);
-
-    for(int i=0;i<m;i++)
-    {
-        p=((d*(p)+P[i])%q);
-        t=((d*(t)+T[i])%q);
-    }
-
-    // printf("P%d T%d",p,t);
-
-    for(int s=0;s<=n-m;s++)
-    {
-        int count=0;
-        if(p==t)
-        {
-            for(int i=0;i<m;i++)
-            {
-                if(P[i]==T[s+i])
-                {
-                     count++;
-                }
-            }
-            if(count==m)
-            {
-                printf("Pattern occurs with shift %d",s);
-            }
-        }
-
-        if(s<n-m)
-        {
-            printf("\nbefore:%d",t);
-            t=(d*(t-T[s]*h)+T[s+m])%q;
-            printf("\np:%d",p);
-            printf("\nbefore adding q:%d",t);
-            if (t < 0)                            //we need to ensure that the value remains within the range [0, q-1], where q is the modulus. However, due to the modulus operation, t might become negative in some cases.This is used to correct that error
-                t = (t + q);    
-            printf("\nafter:%d",t);
-        }
-
-    }
-
-
+int val(char x){
+    return ((int)x) - 96;
 }
 
-void main()
-{
-    printf("\nEnter the text to be checked:");
-    scanf("%s",T);
-    printf("\nEnter the pattern to be checked:");
-    scanf("%s",P);
-
-    RabinKarp(10,1000);
-
+void Rabin(char *T, char *P, int d, int q){
+    int m = strlen(T);
+    int n = strlen(P);
+    int t=0, p=0;
+    int h = ((int)pow(d,n-1))%q;
+    for(int i=0; i<n; i++){
+        p = (d*p + val(P[i])) % q;
+        t = (d*t + val(T[i])) % q;
+    }
+    for(int i=0; i<=m-n+1; i++){
+        if (p == t){
+            int count=0;
+            for(int j=0; j<n; j++){
+                if(P[j] == T[j+i]){
+                    count++;
+                }
+            }
+            if(count == n){
+                printf("pattern found at %d\n", i);
+            }
+        }
+        if (i <= m-n){
+            t = (d*(t - val(T[i])*h) + val(T[i+n]))%q;
+        }
+    }
+}
+void main(){
+    Rabin("abecdcd","cd",10,10);
 }
