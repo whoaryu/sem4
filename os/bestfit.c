@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 
-int process[4] = {1, 2, 3, 4};
+int process[5] = {1, 2, 3, 4,5};
 
-int incoming[4] = {80, 170, 150, 90};
+int incoming[5] = {80,350, 170, 150, 90};
 int memory[4] = {100, 200, 300, 400};
 
 int visited[4] = {0};
@@ -29,7 +29,7 @@ void bestfit()
 {
     bubbleSort(memory, 4);
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         int j;
         for (j = 0; j < 4; j++)
