@@ -1,74 +1,72 @@
 #include <stdio.h>
-#define SIZE 4
 
-int frames[14] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 3};
-
-int main()
-{
-    int hits = 0;
+void optimal(int arr[], int size, int capacity) {
     int miss = 0;
+    int hit = 0;
+    int sol_arr[capacity];
+    int index[capacity];
 
-    printf("Frames:\n");
-    for (int i = 0; i < SIZE; i++)
-    {
-        printf("F%d\t", i);
-    }
-    printf("\n");
-
-    for (int i = 0; i < 14; i++)
-    {
-        int found = 0;
-        for (int j = 0; j < SIZE; j++)
-        {
-            if (frames[i] == frames[j])
-            {
-                found = 1;
-                hits++;
-                break;
-            }
-        }
-        if (!found)
-        {
+    for (int i = 0; i < size; i++) {
+        if (i < capacity) {
+            sol_arr[i] = arr[i];
+            index[i] = i + 1;
             miss++;
-            int replaceIndex = -1;
-            for (int j = i + 1; j < 14; j++)
-            {
-                int k;
-                for (k = 0; k < SIZE; k++)
-                {
-                    if (frames[k] == frames[j])
-                    {
-                        break;
-                    }
-                }
-                if (k == SIZE)
-                {
-                    replaceIndex = j;
+            printf("Step %d: Element %d inserted into memory at index %d (Miss)\n", (i + 1), arr[i], i);
+        } else {
+            int found = 0;
+            for (int j = 0; j < capacity; j++) {
+                // Check if the page is already in memory
+                if (sol_arr[j] == arr[i]) {
+                    hit++;
+                    index[j] = i + 1; // Update index of current reference
+                    found = 1;
+                    printf("Step %d: Element %d found in memory at index %d (Hit)\n", (i + 1), arr[i], j);
                     break;
                 }
             }
-            if (replaceIndex == -1)
-            {
-                replaceIndex = 0;
+            if (!found) {
+                // Find the page to replace using Optimal Page Replacement Algorithm
+                int farthestIndex = -1;
+                int pageToReplace = -1;
+                for (int j = 0; j < capacity; j++) {
+                    int foundFutureReference = 0;
+                    for (int k = i + 1; k < size; k++) {
+                        if (sol_arr[j] == arr[k]) {
+                            index[j] = k + 1; // Update index of future reference
+                            foundFutureReference = 1;
+                            break;
+                        }
+                    }
+                    if (!foundFutureReference) {
+                        pageToReplace = j;
+                        break;
+                    } else {
+                        if (index[j] > farthestIndex) {
+                            farthestIndex = index[j];
+                            pageToReplace = j;
+                        }
+                    }
+                }
+
+                // Replace the page
+                sol_arr[pageToReplace] = arr[i];
+                index[pageToReplace] = i + 1;
+                miss++;
+                printf("Step %d: Element %d inserted into memory at index %d (Miss)\n", (i + 1), arr[i], pageToReplace);
             }
-            frames[replaceIndex] = frames[i];
         }
-        for (int j = 0; j < SIZE; j++)
-        {
-            if (frames[j] == -1)
-            {
-                printf("-\t");
-            }
-            else
-            {
-                printf("%d\t", frames[j]);
-            }
-        }
-        printf("\n");
     }
 
-    printf("Number of hits: %d\n", hits);
-    printf("Number of misses: %d\n", miss);
+    printf("Total Misses: %d\n", miss);
+    printf("Total Hits: %d\n", hit);
+}
+
+int main() {
+    int arr[] = {7,0,1,2,0,3,0,4,2,3,0,3,2};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int capacity = 4;
+
+    optimal(arr, size, capacity);
 
     return 0;
 }
