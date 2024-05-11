@@ -5,6 +5,7 @@ int incoming[4] = {212, 417, 112, 426};
 int memory[5] = {100, 500, 200, 300, 600};
 int visited[5] = {0};
 int allocated[5] = {0};
+
 void bubbleSort(int arr[], int n)
 {
     for (int i = 0; i < n - 1; i++)
@@ -20,6 +21,7 @@ void bubbleSort(int arr[], int n)
         }
     }
 }
+
 void worstfit()
 {
     bubbleSort(memory, 5);
@@ -41,16 +43,20 @@ void worstfit()
 int main()
 {
     worstfit();
+
+    printf("Memory Segment\tAllocated Process\n");
     for (int i = 0; i < 5; i++)
     {
+        printf("%d\t\t", memory[i]);
         if (allocated[i] != 0)
         {
-            printf("P%d->", allocated[i]);
+            printf("P%d\n", allocated[i]);
         }
         else
         {
-            printf("- ->");
+            printf("-\n");
         }
     }
+
     return 0;
 }
