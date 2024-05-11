@@ -5,7 +5,7 @@ int frames[14] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 3};
 
 void fifo()
 {
-    int memory[size] = {-1};
+    int memory[size] = {-1,-1,-1,-1};
     int hits = 0;
 
     for (int i = 0; i < 14; i++)
