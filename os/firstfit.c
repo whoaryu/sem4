@@ -28,16 +28,20 @@ void firstfit()
 int main()
 {
     firstfit();
+
+    printf("Memory Segment\tAllocated Process\n");
     for (int i = 0; i < 5; i++)
     {
+        printf("%d\t\t", memory[i]);
         if (allocated[i] != 0)
         {
-            printf("P%d->", allocated[i]);
+            printf("P%d\n", allocated[i]);
         }
         else
         {
-            printf("- ->");
+            printf("-\n");
         }
     }
+
     return 0;
 }
