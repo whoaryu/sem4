@@ -1,52 +1,39 @@
-/*Using backtracking approach for algorithm design, write a program to implement N–queen problem */
+#include <stdio.h>
+#include <stdlib.h>
 
-#include<stdio.h>
-#include<stdlib.h>
+int x[4];
 
-int n,x[10];
-
-int place(int k,int j)
-{   
-    for(int i=0;i<k;i++)
+int place(int k, int i)
+{
+    for(int j=0;j<k;j++)
     {
-        if(x[i]==j || abs(x[i]-j)==abs(i-k))
+        if(x[j]==i || abs(x[j]-i)==abs(j-k))
+        {
             return 0;
+        }
     }
     return 1;
 }
 
-void NQueens(int k,int n)
-{   
-    for(int j=0;j<n;j++)
+void nqueen(int k, int n){
+    for(int i=0;i<n;i++)
     {
-        if(place(k,j)==1)
+        if(place(k,i)==1)
         {
-            x[k]=j;
-            if(k+1==n)
+            x[k]=i;
+            if(k==n-1)
             {
-                for(int i=0;i<n;i++)
-                {                    
-                    printf("%d ",x[i]+1);
-                }
+                for(int p=0; p<n; p++)
+                printf("%d ", x[p]);
                 printf("\n");
-                // return;
             }
             else
-            {
-                // printf("Nqueen of %d called\n",k+1);
-                NQueens(k+1,n);
-            }
+                nqueen(k+1,n);
         }
     }
 }
 
-
-
 void main()
 {
-    printf("Enter the chessboard size:");
-    scanf("%d",&n);
-
-    NQueens(0,n);
-
+    nqueen(0,4);
 }
