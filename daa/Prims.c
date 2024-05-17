@@ -1,24 +1,21 @@
 #include<stdio.h>
 
-int map[50][50]={
-    {0,4,0,0,0,0,0,8,0},
-    {4,0,8,0,0,0,0,11,0},
-    {0,8,0,7,0,4,0,0,2},
-    {0,0,7,0,9,14,0,0,0},
-    {0,0,0,9,0,10,0,0,0},
-    {0,0,4,14,10,0,2,0,0},
-    {0,0,0,0,0,2,0,1,6},
-    {8,11,0,0,0,0,1,0,7},
-    {0,0,2,0,0,0,6,7,0},
+int map[100][100]={
+    {0,7,9,0,0,4},
+    {7,0,10,15,0,0},
+    {9,10,0,11,0,2},
+    {0,15,11,0,6,0},
+    {0,0,0,6,0,9},
+    {4,0,2,0,9,0},
 };
 
-int dist[50],parent[50],visited[50]={0},source=0,n=9;
+int dist[100],parent[100],visited[100]={0,0,0,0,0,0},source=0,n=6;
 
 int extract_min()
 {
     int temp=10000,tempi=0;
 
-    for(int i=0;i<n;i++)
+    for(int i=0;i<6;i++)
     {
         if(dist[i]<temp && visited[i]!=1)
         {
@@ -45,15 +42,15 @@ void initialize_Single_Soure()
 
 void relax(int u,int v)
 {
-    if(dist[v]>map[u][v])
+    if(dist[v]>map[u][v])  // yeh condition  .. dist[v]>dist[u]+map[u][v]
     {
-        dist[v]=map[u][v];
+        dist[v]=map[u][v];  //Only difference between Prim and Djikstra  ..dist[v]=dist[u]+map[u][v]
         parent[v]=u;
     }
 }
 
 
-void Prims()
+void Prim()
 {
     initialize_Single_Soure();
 
@@ -75,7 +72,7 @@ void Prims()
 
 void main()
 {
-    Prims();
+    Prim();
     printf("Distance :\n");
 
     for(int i=0;i<n;i++)
@@ -83,7 +80,7 @@ void main()
         printf("%d ",dist[i]);
     }
 
-    printf("parent:\n");
+    printf("\n\nparent:\n");
     for(int i=0;i<n;i++)
     {
         printf("%c ",parent[i]+65);
