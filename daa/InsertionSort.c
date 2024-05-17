@@ -1,57 +1,40 @@
+#include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
-int i,j,key,arr[];
+int a[100];
+int n;
 
-void insertionSort(int arr[],int n)
-{   
-    for(int i=0;i<n;i++)
+void insertionSort()
+{
+    int temp;
+    for (int i = 1; i < n; i++)
     {
-        key=arr[i];
-        j=i-1;
-        while(j>=0 && arr[j]>key)
+        temp=a[i];
+        int j=i-1;
+        while(j>=0 && a[j]>temp)
         {
-            arr[j+1]=arr[j];
+            a[j+1]=a[j];
             j--;
         }
-        arr[j+1]=key;        
+        a[j+1]=temp;
     }
 }
-int main() {    
-    clock_t t1,t2,t3;
-    int n;
-    n=10000;
-    int arr[n];
 
-    for(int i=0;i<n;i++)
+int main()
+{
+    int data, val;
+    printf("Enter number of data items in the array: \n");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
     {
-        arr[i]=rand();
-    }    
-
-
-    t1=clock();     
-    insertionSort(arr,n);
-    t2=clock();
-    t3=t2-t1;    
-    printf("average case:%ld\n",t3);    
-    
-    t1=clock();     
-    insertionSort(arr,n);
-    t2=clock();
-    t3=t2-t1;    
-    printf("best case:%ld\n",t3);    
-    
-    
-    int b[n];
-    for(int i=n;i>=0;i--)
-    {
-        b[i]=arr[n-i];
+        printf("Enter data: ");
+        scanf("%d", &data);
+        a[i] = data;
     }
-        
-    t1=clock();     
-    insertionSort(b,n);
-    t2=clock();
-    t3=t2-t1;    
-    printf("worst case:%ld",t3);
+    insertionSort();
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d",a[i]);
+    }
     return 0;
 }
