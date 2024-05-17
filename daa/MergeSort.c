@@ -8,7 +8,7 @@ void merge(int low, int mid, int high)
 {
     int i = low;
     int j = mid + 1;
-    int k = low;
+    int k = 0;
     while (i <= mid && j <= high)
     {
         if (a[i] < a[j])
